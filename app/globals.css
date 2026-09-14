@@ -21,9 +21,9 @@
   --line:        #D8DEE3;
 
   /* typo */
-  --f-display: 'Oswald', sans-serif;
-  --f-body: 'Work Sans', sans-serif;
-  --f-mono: 'IBM Plex Mono', monospace;
+  --f-display: 'Poppins', sans-serif;
+  --f-body: 'Inter', sans-serif;
+  --f-mono: 'Inter', sans-serif;
 
   /* layout */
   --maxw: 1180px;
