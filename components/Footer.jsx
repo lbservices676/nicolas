@@ -36,7 +36,7 @@ export default function Footer() {
           <div>
             <h4>Contact</h4>
             <ul>
-              <li>01 23 45 67 89</li>
+              <li>06 36 29 48 46 </li>
               <li>lbservices.idf@outlook.fr</li>
               <li>9 rue de la porte des bois, 94440 Marolles-en-Brie</li>
             </ul>
