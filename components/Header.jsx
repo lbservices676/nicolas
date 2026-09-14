@@ -23,7 +23,7 @@ export default function Header({ current }) {
     <header className={`site-header ${open ? 'nav-open' : ''}`}>
       <div className="info-bar">
         <div className="wrap">
-          <span><strong>Marolles-en-Brie</strong> · Livraison chantier BTP &amp; TP sous 48h</span>
+          <span>Livraison chantier BTP &amp; TP sous 48h</span>
           <div className="info-links">
             <Link href="/apropos" {...cur('apropos')}>À propos</Link>
             <Link href="/contact" {...cur('contact')}>Contact</Link>
