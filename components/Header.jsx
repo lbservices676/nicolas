@@ -2,15 +2,27 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LogoMark from './LogoMark';
 import { useCart } from './CartProvider';
+import { createClient } from '@/lib/supabase/client';
 
 export default function Header({ current }) {
   const { count } = useCart();
   const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [q, setQ] = useState('');
+  const [categories, setCategories] = useState([]);
   const router = useRouter();
+
+  useEffect(() => {
+    const supabase = createClient();
+    supabase
+      .from('categories')
+      .select('name, slug')
+      .order('sort_order', { ascending: true })
+      .then(({ data }) => setCategories(data ?? []));
+  }, []);
 
   const cur = (name) => (current === name ? { 'aria-current': 'page' } : {});
 
@@ -75,18 +87,34 @@ export default function Header({ current }) {
       </div>
 
       <nav className="subnav" aria-label="Navigation produits">
-        <div className="wrap">
-          <button className="menu-btn">
+        <div className="wrap" style={{ position: 'relative' }}>
+          <button
+            type="button"
+            className="menu-btn"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((o) => !o)}
+          >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
             Nos univers
           </button>
+
+          {menuOpen && (
+            <div className="univers-dropdown">
+              {categories.length === 0 && (
+                <span style={{ color: 'var(--steel)', fontSize: 13 }}>Aucun univers pour l&apos;instant.</span>
+              )}
+              {categories.map((c) => (
+                <Link key={c.slug} href={`/produits#${c.slug}`} onClick={() => setMenuOpen(false)}>
+                  {c.name}
+                </Link>
+              ))}
+            </div>
+          )}
+
           <ul className="subnav-links">
-            <li><Link href="/produits#outillage">Outillage</Link></li>
-            <li><Link href="/produits#epi">EPI &amp; sécurité</Link></li>
-            <li><Link href="/produits#fixation">Fixation</Link></li>
-            <li><Link href="/produits#manutention">Manutention</Link></li>
-            <li><Link href="/produits#abrasifs">Abrasifs</Link></li>
-            <li><Link href="/produits#plomberie">Plomberie</Link></li>
+            {categories.map((c) => (
+              <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
+            ))}
           </ul>
           <Link href="/panier" className="subnav-right">Voir mon panier →</Link>
         </div>
