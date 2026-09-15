@@ -111,12 +111,7 @@ export default function Header({ current }) {
             </div>
           )}
 
-          <ul className="subnav-links">
-            {categories.map((c) => (
-              <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
-            ))}
-          </ul>
-          <Link href="/panier" className="subnav-right">Voir mon panier →</Link>
+          <Link href="/panier" className="subnav-right" style={{ marginLeft: 'auto' }}>Voir mon panier →</Link>
         </div>
       </nav>
     </header>
