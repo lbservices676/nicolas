@@ -173,6 +173,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   text-transform:uppercase; letter-spacing:.03em;
 }
 .menu-btn svg{ width:18px; height:18px; }
+.univers-dropdown{
+  position:absolute; top:100%; left:28px; margin-top:8px;
+  background:#fff; border:1px solid var(--line); border-radius:6px;
+  box-shadow:0 16px 30px -12px rgba(11,37,64,.25);
+  padding:10px; display:flex; flex-direction:column; gap:2px;
+  min-width:220px; z-index:80;
+}
+.univers-dropdown a{
+  padding:9px 12px; border-radius:4px; font-size:13.5px; color:var(--ink);
+  transition:background .15s;
+}
+.univers-dropdown a:hover{ background:var(--paper); color:var(--orange); }
 .subnav-links{ display:flex; gap:26px; flex:1; }
 .subnav-links a{
   font-family:var(--f-mono); font-size:12.5px; letter-spacing:.03em;
