@@ -2,25 +2,32 @@ import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { createClient } from '@/lib/supabase/server';
-import { CATEGORY_ICONS, DEFAULT_ICON } from '@/lib/categoryIcons';
 
 export const revalidate = 0;
 
-async function getCategories() {
+const CURATED_BRANDS = ['Makita', 'Talia', 'Golz'];
+
+async function getHomeData() {
   const supabase = createClient();
-  const { data, error } = await supabase
+
+  const { data: categories } = await supabase
     .from('categories')
     .select('*')
     .order('sort_order', { ascending: true });
-  if (error) {
-    console.error('Erreur chargement catégories :', error.message);
-    return [];
-  }
-  return data ?? [];
+
+  const { data: featured } = await supabase
+    .from('products')
+    .select('*')
+    .eq('active', true)
+    .not('image_url', 'is', null)
+    .order('created_at', { ascending: false })
+    .limit(6);
+
+  return { categories: categories ?? [], featured: featured ?? [] };
 }
 
 export default async function HomePage() {
-  const categories = await getCategories();
+  const { categories, featured } = await getHomeData();
 
   return (
     <>
@@ -59,31 +66,56 @@ export default async function HomePage() {
         <div className="wrap">
           <div className="section-head">
             <div>
-              <span className="eyebrow">Catalogue</span>
-              <h2>Nos univers produits</h2>
+              <span className="eyebrow">Nos marques</span>
+              <h2>{featured.length > 0 ? 'Produits phares' : 'Des marques que vous connaissez'}</h2>
             </div>
-            <p>Un catalogue tenu à jour directement par notre équipe — de la visserie au levage.</p>
+            <p>
+              {featured.length > 0
+                ? 'Une sélection de références disponibles chez les plus grandes marques du secteur.'
+                : 'Nous distribuons des références des plus grandes marques du secteur BTP & TP.'}
+            </p>
           </div>
 
-          <div className="cat-grid">
-            {categories.map((cat, i) => (
-              <div className="cat-card" key={cat.id}>
-                <div className="thumb" data-code={String(i + 1).padStart(2, '0')}>
-                  {(CATEGORY_ICONS[cat.icon] || DEFAULT_ICON)}
+          {featured.length > 0 ? (
+            <div className="cat-grid">
+              {featured.map((p) => (
+                <div className="cat-card" key={p.id}>
+                  <div className="thumb" style={{ background: '#fff' }}>
+                    <img src={p.image_url} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+                  </div>
+                  <div className="body">
+                    {p.brand && (
+                      <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '.04em', marginBottom: 4, display: 'block' }}>
+                        {p.brand}
+                      </span>
+                    )}
+                    <h3>{p.name}</h3>
+                    <p>{p.spec || p.description}</p>
+                    <Link href="/produits" className="more">Voir sur le catalogue →</Link>
+                  </div>
                 </div>
-                <div className="body">
-                  <h3>{cat.name}</h3>
-                  <p>{cat.description}</p>
-                  <Link href={`/produits#${cat.slug}`} className="more">Voir la gamme →</Link>
+              ))}
+            </div>
+          ) : (
+            <div style={{
+              display: 'flex', flexWrap: 'wrap', gap: 16, background: 'var(--paper-2)',
+              border: '1px solid var(--line)', borderRadius: 8, padding: '32px 28px',
+            }}>
+              {CURATED_BRANDS.map((brand) => (
+                <div key={brand} style={{
+                  flex: '1 1 180px', textAlign: 'center', padding: '22px 16px',
+                  border: '1px solid var(--line)', borderRadius: 6, background: '#fff',
+                }}>
+                  <span style={{ fontFamily: 'var(--f-display)', fontWeight: 700, fontSize: 22, color: 'var(--navy)', textTransform: 'uppercase' }}>
+                    {brand}
+                  </span>
                 </div>
-              </div>
-            ))}
-            {categories.length === 0 && (
-              <p style={{ color: 'var(--steel)' }}>
-                Aucun univers pour l&apos;instant — ajoutez vos premières catégories depuis l&apos;espace admin.
+              ))}
+              <p style={{ flexBasis: '100%', color: 'var(--steel)', fontSize: 13, marginTop: 8 }}>
+                Ajoutez des photos à vos produits phares depuis l&apos;espace admin pour les voir apparaître ici automatiquement.
               </p>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </section>
 
