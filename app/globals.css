@@ -733,18 +733,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .carousel-track::-webkit-scrollbar{ display:none; }
 .carousel-slide{
-  scroll-snap-align:start; flex:0 0 calc(33.333% - 12px); min-width:0;
+  scroll-snap-align:start; flex:0 0 calc(46% - 10px); min-width:0;
 }
 .carousel-image-card{
   display:block; border-radius:8px; overflow:hidden; position:relative;
   box-shadow:0 10px 24px -16px rgba(11,37,64,.35); transition:transform .2s;
+  background:#fff; aspect-ratio:5/4;
 }
 .carousel-image-card:hover{ transform:translateY(-4px); }
-.carousel-image-card img{ width:100%; height:100%; aspect-ratio:2/1; object-fit:cover; display:block; }
+.carousel-image-card img{ width:100%; height:100%; object-fit:contain; display:block; }
 .carousel-cta-card{
   display:flex; flex-direction:column; justify-content:center; height:100%;
-  aspect-ratio:2/1; background:var(--navy); border-radius:8px; padding:28px;
-  color:#fff; position:relative; overflow:hidden;
+  aspect-ratio:5/4; background:var(--navy); border-radius:8px; padding:28px;
 }
 .carousel-cta-card::after{
   content:""; position:absolute; right:-60px; bottom:-60px; width:180px; height:180px;
