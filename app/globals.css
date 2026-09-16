@@ -743,7 +743,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .carousel-image-card img{ width:100%; height:100%; aspect-ratio:2/1; object-fit:cover; display:block; }
 .carousel-cta-card{
   display:flex; flex-direction:column; justify-content:center; height:100%;
-  aspect-ratio:4/3; background:var(--navy); border-radius:8px; padding:28px;
+  aspect-ratio:2/1; background:var(--navy); border-radius:8px; padding:28px;
   color:#fff; position:relative; overflow:hidden;
 }
 .carousel-cta-card::after{
