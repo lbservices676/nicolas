@@ -1,11 +1,19 @@
 import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import ProductCarousel from '@/components/ProductCarousel';
 import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 0;
 
 const CURATED_BRANDS = ['Makita', 'Talia', 'Golz'];
+
+function findSlug(categories, keywords) {
+  const match = categories.find((c) =>
+    keywords.some((k) => c.name.toLowerCase().includes(k))
+  );
+  return match ? `/produits#${match.slug}` : '/produits';
+}
 
 async function getHomeData() {
   const supabase = createClient();
@@ -29,6 +37,42 @@ async function getHomeData() {
 export default async function HomePage() {
   const { categories, featured } = await getHomeData();
 
+  const carouselSlides = [
+    {
+      type: 'image', image: '/carousel/outillage.png',
+      title: 'Outillage', text: 'Des outils performants pour un travail efficace.',
+      href: findSlug(categories, ['outillage']),
+    },
+    {
+      type: 'image', image: '/carousel/epi-securite.png',
+      title: 'EPI & Sécurité', text: 'Protégez vos équipes sur tous vos chantiers.',
+      href: findSlug(categories, ['epi', 'sécurité', 'securite']),
+    },
+    {
+      type: 'image', image: '/carousel/manutention.png',
+      title: 'Manutention', text: 'Gagnez en efficacité sur vos chantiers.',
+      href: findSlug(categories, ['manutention']),
+    },
+    {
+      type: 'image', image: '/carousel/consommables.png',
+      title: 'Matériaux & Consommables', text: "Tout ce qu'il vous faut pour avancer.",
+      href: findSlug(categories, ['consommable', 'matériaux', 'materiaux']),
+    },
+    {
+      type: 'image', image: '/carousel/base-vie.png',
+      title: 'Base Vie', text: 'Des solutions pour des chantiers bien organisés.',
+      href: findSlug(categories, ['base vie', 'installation']),
+    },
+    {
+      type: 'cta',
+      eyebrow: 'LB Service',
+      title: 'Vous cherchez une référence ?',
+      text: 'Envoyez-nous votre besoin, nous recherchons la solution adaptée auprès de nos fabricants et partenaires.',
+      cta: 'Demander un devis',
+      href: '/contact',
+    },
+  ];
+
   return (
     <>
       <Header current="accueil" />
@@ -38,9 +82,12 @@ export default async function HomePage() {
           <div>
             <span className="eyebrow">Grossiste fournitures BTP &amp; TP</span>
             <h1>L&apos;équipement qui<br /><span className="accent">tient le chantier.</span></h1>
-            <p className="lead">Outillage, EPI, fixation, manutention, abrasifs et plomberie : tout le matériel professionnel dont vos équipes ont besoin, livré sur chantier sous 48h.</p>
+            <p className="lead">Outillage, EPI, fixation, manutention, abrasifs, plomberie et fournitures de chantier : LB Services accompagne les professionnels du BTP et du TP avec des produits adaptés à leurs besoins, au bon prix et livrés directement sur chantier.</p>
+            <p style={{ color: 'var(--yellow)', fontWeight: 600, marginTop: '-16px', marginBottom: 28, fontSize: 15 }}>
+              Un seul interlocuteur pour vos besoins chantier.
+            </p>
             <div className="cta-row">
-              <Link href="/produits" className="btn btn--primary">Voir les produits</Link>
+              <Link href="/produits" className="btn btn--primary">Voir nos produits</Link>
               <Link href="/contact" className="btn btn--ghost">Demander un devis</Link>
             </div>
             <div className="hero-stats">
@@ -63,6 +110,19 @@ export default async function HomePage() {
       <div className="hazard"></div>
 
       <section className="section">
+        <div className="wrap">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Nos produits &amp; solutions</span>
+              <h2>Tout pour vos chantiers</h2>
+            </div>
+            <p>Une sélection de nos univers phares — cliquez pour découvrir les produits associés.</p>
+          </div>
+          <ProductCarousel slides={carouselSlides} />
+        </div>
+      </section>
+
+      <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="section-head">
             <div>
