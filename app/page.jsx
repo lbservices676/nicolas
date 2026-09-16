@@ -77,11 +77,14 @@ export default async function HomePage() {
     <>
       <Header current="accueil" />
 
+      <section style={{ background: '#fff', padding: '36px 0 4px' }}>
+        <div className="wrap">
+          <ProductCarousel slides={carouselSlides} />
+        </div>
+      </section>
+
       <section className="hero">
         <div className="wrap">
-          <div style={{ gridColumn: '1 / -1', marginBottom: 8 }}>
-            <ProductCarousel slides={carouselSlides} />
-          </div>
           <div>
             <span className="eyebrow" style={{ marginTop: 24, display: 'inline-flex' }}>Grossiste fournitures BTP &amp; TP</span>
             <h1>L&apos;équipement qui<br /><span className="accent">tient le chantier.</span></h1>
