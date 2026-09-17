@@ -15,6 +15,20 @@ function findSlug(categories, keywords) {
   return match ? `/produits#${match.slug}` : '/produits';
 }
 
+const CATEGORY_PHOTOS = [
+  { keywords: ['outillage'], image: '/carousel/outillage.png' },
+  { keywords: ['epi', 'sécurité', 'securite'], image: '/carousel/epi-securite.png' },
+  { keywords: ['manutention'], image: '/carousel/manutention.png' },
+  { keywords: ['consommable', 'matériaux', 'materiaux'], image: '/carousel/consommables.png' },
+  { keywords: ['base vie', 'installation'], image: '/carousel/base-vie.png' },
+];
+
+function findCategoryImage(name) {
+  const lower = name.toLowerCase();
+  const match = CATEGORY_PHOTOS.find((c) => c.keywords.some((k) => lower.includes(k)));
+  return match ? match.image : null;
+}
+
 async function getHomeData() {
   const supabase = createClient();
 
@@ -169,6 +183,47 @@ export default async function HomePage() {
               </p>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="section" style={{ background: 'var(--paper-2)' }}>
+        <div className="wrap">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Nos univers</span>
+              <h2>Tout pour vos chantiers</h2>
+            </div>
+            <p>Retrouvez nos principales familles de produits pour équiper vos équipes et vos chantiers.</p>
+          </div>
+
+          <div className="cat-grid">
+            {categories.map((cat, i) => {
+              const photo = findCategoryImage(cat.name);
+              return (
+                <div className="cat-card" key={cat.id}>
+                  <div className="thumb" data-code={String(i + 1).padStart(2, '0')} style={photo ? { background: '#fff' } : undefined}>
+                    {photo
+                      ? <img src={photo} alt={cat.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
+                      : (
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#FFC72C" strokeWidth="1.6">
+                          <rect x="4" y="4" width="16" height="16" rx="2" /><path d="M8 8h8v8H8z" />
+                        </svg>
+                      )}
+                  </div>
+                  <div className="body">
+                    <h3>{cat.name}</h3>
+                    <p>{cat.description}</p>
+                    <Link href={`/produits#${cat.slug}`} className="more">Découvrir →</Link>
+                  </div>
+                </div>
+              );
+            })}
+            {categories.length === 0 && (
+              <p style={{ color: 'var(--steel)' }}>
+                Aucun univers pour l&apos;instant — ajoutez-en depuis l&apos;espace admin.
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
