@@ -781,4 +781,27 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 640px){
   .carousel-slide{ flex-basis:82%; }
 }
+/* ---------- section 8 : différenciateur "pas juste un catalogue" ---------- */
+.diff-band{ background:var(--navy); color:#fff; padding:72px 0; }
+.diff-band-inner{ display:grid; grid-template-columns:1.4fr .8fr; gap:56px; align-items:center; }
+.diff-band h2{
+  font-family:var(--f-display); font-size:32px; text-transform:uppercase;
+  margin:14px 0 20px; line-height:1.2;
+}
+.diff-band p{ color:var(--steel-light); margin-bottom:16px; max-width:56ch; }
+.diff-band p strong{ color:#fff; }
+.diff-contact-card{
+  background:var(--navy-2); border:1px solid rgba(255,255,255,.12); border-radius:8px;
+  padding:26px; display:flex; flex-direction:column; gap:18px;
+}
+.diff-contact-card a{ display:flex; align-items:center; gap:14px; color:#fff; font-size:15px; font-weight:600; }
+.diff-contact-card .ic{
+  width:38px; height:38px; background:var(--orange); border-radius:6px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+}
+.diff-contact-card .ic svg{ width:19px; height:19px; }
+
+@media (max-width: 860px){
+  .diff-band-inner{ grid-template-columns:1fr; }
+}
 
