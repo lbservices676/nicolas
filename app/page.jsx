@@ -256,6 +256,39 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="section">
+        <div className="wrap">
+          <div className="section-head">
+            <div>
+              <span className="eyebrow">Comment ça marche</span>
+              <h2>Votre besoin. Notre solution.</h2>
+            </div>
+          </div>
+          <div className="steps-grid">
+            <div className="step-card">
+              <span className="step-num">01</span>
+              <h3>Vous nous consultez</h3>
+              <p>Par téléphone, e-mail ou directement depuis le site.</p>
+            </div>
+            <div className="step-card">
+              <span className="step-num">02</span>
+              <h3>Nous recherchons</h3>
+              <p>Nous identifions les produits et fabricants adaptés à votre besoin.</p>
+            </div>
+            <div className="step-card">
+              <span className="step-num">03</span>
+              <h3>Vous recevez votre devis</h3>
+              <p>Une proposition claire et chiffrée sous 24h ouvrées.</p>
+            </div>
+            <div className="step-card">
+              <span className="step-num">04</span>
+              <h3>Vous êtes livré</h3>
+              <p>Livraison directement sur chantier ou en dépôt.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <div className="trust-bar">
         <div className="wrap">
           <div className="item"><b>1200+</b><span>Références en stock</span></div>
