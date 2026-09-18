@@ -804,4 +804,33 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 860px){
   .diff-band-inner{ grid-template-columns:1fr; }
 }
+/* ---------- section 9 : comment ça marche ---------- */
+.steps-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:22px; }
+.step-card{
+  background:#fff; border:1px solid var(--line); border-radius:8px;
+  padding:28px 24px; position:relative;
+}
+.step-card::after{
+  content:"→"; position:absolute; top:28px; right:-28px; font-size:20px;
+  color:var(--line); font-family:var(--f-display);
+}
+.step-card:last-child::after{ display:none; }
+.step-num{
+  display:block; font-family:var(--f-display); font-size:36px; color:var(--orange);
+  margin-bottom:10px;
+}
+.step-card h3{
+  font-family:var(--f-display); font-size:17px; text-transform:uppercase;
+  margin-bottom:8px;
+}
+.step-card p{ color:var(--steel); font-size:14px; }
+
+@media (max-width: 900px){
+  .steps-grid{ grid-template-columns:1fr 1fr; }
+  .step-card::after{ display:none; }
+}
+@media (max-width: 560px){
+  .steps-grid{ grid-template-columns:1fr; }
+}
+
 
