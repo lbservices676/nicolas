@@ -227,6 +227,35 @@ export default async function HomePage() {
         </div>
       </section>
 
+      <section className="diff-band">
+        <div className="wrap diff-band-inner">
+          <div>
+            <span className="eyebrow" style={{ color: 'var(--yellow)' }}>LB Service</span>
+            <h2>Pas juste un catalogue.<br />Un vrai interlocuteur.</h2>
+            <p>
+              Chez LB Services, nous ne nous contentons pas de vous présenter un catalogue.
+              Vous avez une référence à trouver, un besoin chantier à anticiper ou un budget à
+              respecter&nbsp;? Nous recherchons la solution adaptée auprès de nos fabricants et partenaires.
+            </p>
+            <p>
+              <strong>Notre objectif :</strong> vous faire gagner du temps et vous permettre de garder
+              votre chantier en mouvement.
+            </p>
+            <Link href="/contact" className="btn btn--primary">Parler à LB Service</Link>
+          </div>
+          <div className="diff-contact-card">
+            <a href="tel:0639294846">
+              <span className="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z" /></svg></span>
+              <span>06 39 29 48 46</span>
+            </a>
+            <a href="mailto:lbservices.idf@outlook.fr">
+              <span className="ic"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.8"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg></span>
+              <span>lbservices.idf@outlook.fr</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <div className="trust-bar">
         <div className="wrap">
           <div className="item"><b>1200+</b><span>Références en stock</span></div>
