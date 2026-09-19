@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function ContactForm() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [file, setFile] = useState(null);
   const [status, setStatus] = useState(null);
   const [sending, setSending] = useState(false);
 
@@ -17,29 +18,33 @@ export default function ContactForm() {
       return;
     }
 
+    const web3key = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+    if (!web3key) {
+      setStatus({ ok: false, msg: "Le formulaire n'est pas encore configuré. Merci de nous appeler directement." });
+      return;
+    }
+
     setSending(true);
     try {
-      const web3key = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
-      if (!web3key) {
-        setStatus({ ok: false, msg: "Le formulaire n'est pas encore configuré. Merci de nous appeler directement." });
-        setSending(false);
-        return;
-      }
+      const data = new FormData();
+      data.append('access_key', web3key);
+      data.append('subject', 'Nouveau message — site LB Service');
+      data.append('Nom', form.name);
+      data.append('Email', form.email);
+      data.append('Téléphone', form.phone);
+      data.append('Message', form.message);
+      if (file) data.append('attachment', file);
+
       const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({
-          access_key: web3key,
-          subject: 'Nouveau message — site LB Service',
-          Nom: form.name,
-          Email: form.email,
-          Téléphone: form.phone,
-          Message: form.message,
-        }),
+        headers: { Accept: 'application/json' },
+        body: data,
       });
+
       if (res.ok) {
         setStatus({ ok: true, msg: 'Message envoyé. Nous revenons vers vous sous 24h ouvrées.' });
         setForm({ name: '', email: '', phone: '', message: '' });
+        setFile(null);
       } else {
         setStatus({ ok: false, msg: "L'envoi a échoué. Vous pouvez aussi nous joindre par téléphone." });
       }
@@ -72,6 +77,12 @@ export default function ContactForm() {
         <div className="field full">
           <label htmlFor="c-message">Votre message *</label>
           <textarea id="c-message" name="message" value={form.message} onChange={onChange} required />
+        </div>
+      </div>
+      <div className="form-row">
+        <div className="field full">
+          <label htmlFor="c-file">Joindre un fichier (optionnel)</label>
+          <input id="c-file" type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
         </div>
       </div>
       <div className="form-foot">
