@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 const empty = {
   id: null, category_id: '', name: '', brand: '', ref: '', description: '',
   spec: '', price: '', unit: 'unité', image_url: '', active: true, sort_order: 0,
+  on_promo: false, old_price: '',
 };
 
 export default function ProductsManager({ initialProducts, categories }) {
@@ -27,7 +28,7 @@ export default function ProductsManager({ initialProducts, categories }) {
     setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const onEdit = (p) => { setForm({ ...p, price: p.price ?? '', brand: p.brand || '', image_url: p.image_url || '' }); setEditing(true); setStatus(null); };
+  const onEdit = (p) => { setForm({ ...p, price: p.price ?? '', brand: p.brand || '', image_url: p.image_url || '', old_price: p.old_price ?? '', on_promo: !!p.on_promo }); setEditing(true); setStatus(null); };
   const onCancel = () => { setForm(empty); setEditing(false); };
 
   const onFileChange = async (e) => {
@@ -68,6 +69,8 @@ export default function ProductsManager({ initialProducts, categories }) {
       image_url: form.image_url || null,
       active: !!form.active,
       sort_order: Number(form.sort_order) || 0,
+      on_promo: !!form.on_promo,
+      old_price: form.old_price === '' ? null : Number(form.old_price),
     };
 
     const { error } = editing
@@ -102,7 +105,7 @@ export default function ProductsManager({ initialProducts, categories }) {
 
       <table className="admin-table" style={{ marginBottom: 32 }}>
         <thead>
-          <tr><th>Photo</th><th>Réf.</th><th>Nom</th><th>Marque</th><th>Univers</th><th>Prix HT</th><th>Statut</th><th></th></tr>
+          <tr><th>Photo</th><th>Réf.</th><th>Nom</th><th>Marque</th><th>Univers</th><th>Prix HT</th><th>Promo</th><th>Statut</th><th></th></tr>
         </thead>
         <tbody>
           {visibleProducts.map((p) => (
@@ -117,6 +120,7 @@ export default function ProductsManager({ initialProducts, categories }) {
               <td>{p.brand || '—'}</td>
               <td>{catName(p.category_id)}</td>
               <td>{p.price != null ? `${p.price} €` : '—'}</td>
+              <td>{p.on_promo ? <span className="status-pill nouveau">Promo</span> : '—'}</td>
               <td><span className={`status-pill ${p.active ? 'traite' : 'en-cours'}`}>{p.active ? 'Publié' : 'Masqué'}</span></td>
               <td>
                 <div className="admin-actions">
@@ -127,7 +131,7 @@ export default function ProductsManager({ initialProducts, categories }) {
             </tr>
           ))}
           {visibleProducts.length === 0 && (
-            <tr><td colSpan={8} style={{ color: 'var(--steel)' }}>Aucun produit dans cette sélection.</td></tr>
+            <tr><td colSpan={9} style={{ color: 'var(--steel)' }}>Aucun produit dans cette sélection.</td></tr>
           )}
         </tbody>
       </table>
@@ -212,6 +216,19 @@ export default function ProductsManager({ initialProducts, categories }) {
             <input type="checkbox" id="active" name="active" checked={form.active} onChange={onChange} />
             <label htmlFor="active" style={{ margin: 0 }}>Visible sur le site public</label>
           </div>
+
+          <div className="field" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <input type="checkbox" id="on_promo" name="on_promo" checked={form.on_promo} onChange={onChange} />
+            <label htmlFor="on_promo" style={{ margin: 0 }}>En promo / déstockage</label>
+          </div>
+          {form.on_promo && (
+            <div className="field">
+              <label>Ancien prix HT (€) — affiché barré</label>
+              <input name="old_price" type="number" step="0.01" value={form.old_price} onChange={onChange}
+                placeholder="Doit être supérieur au prix actuel"
+                style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 4, marginTop: 6 }} />
+            </div>
+          )}
 
           {status && <div className={`form-status show ${status.ok ? 'ok' : 'bad'}`}>{status.msg}</div>}
           <div className="admin-actions" style={{ marginTop: 16 }}>
