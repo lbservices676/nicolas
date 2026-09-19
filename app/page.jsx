@@ -3,6 +3,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductCarousel from '@/components/ProductCarousel';
 import HomeQuoteForm from '@/components/HomeQuoteForm';
+import ProductCard from '@/components/ProductCard';
 import { createClient } from '@/lib/supabase/server';
 
 export const revalidate = 0;
@@ -46,11 +47,19 @@ async function getHomeData() {
     .order('created_at', { ascending: false })
     .limit(6);
 
-  return { categories: categories ?? [], featured: featured ?? [] };
+  const { data: promoProducts } = await supabase
+    .from('products')
+    .select('*')
+    .eq('active', true)
+    .eq('on_promo', true)
+    .order('created_at', { ascending: false })
+    .limit(8);
+
+  return { categories: categories ?? [], featured: featured ?? [], promoProducts: promoProducts ?? [] };
 }
 
 export default async function HomePage() {
-  const { categories, featured } = await getHomeData();
+  const { categories, featured, promoProducts } = await getHomeData();
 
   const carouselSlides = [
     {
@@ -129,6 +138,23 @@ export default async function HomePage() {
         </div>
       </section>
       <div className="hazard"></div>
+
+      {promoProducts.length > 0 && (
+        <section className="section" style={{ paddingBottom: 0 }}>
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow" style={{ color: 'var(--orange)' }}>🔥 En ce moment</span>
+                <h2>Bons plans</h2>
+              </div>
+              <Link href="/produits?promo=1" className="more" style={{ fontSize: 14 }}>Voir tous les bons plans →</Link>
+            </div>
+            <div className="prod-grid">
+              {promoProducts.map((p) => <ProductCard product={p} key={p.id} />)}
+            </div>
+          </div>
+        </section>
+      )}
 
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
