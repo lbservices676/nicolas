@@ -10,9 +10,10 @@ import { createClient } from '@/lib/supabase/client';
 export default function Header({ current }) {
   const { count } = useCart();
   const [open, setOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [brandsOpen, setBrandsOpen] = useState(false);
   const [q, setQ] = useState('');
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,6 +23,16 @@ export default function Header({ current }) {
       .select('name, slug')
       .order('sort_order', { ascending: true })
       .then(({ data }) => setCategories(data ?? []));
+
+    supabase
+      .from('products')
+      .select('brand')
+      .eq('active', true)
+      .not('brand', 'is', null)
+      .then(({ data }) => {
+        const uniqueBrands = [...new Set((data ?? []).map((p) => p.brand).filter(Boolean))].sort();
+        setBrands(uniqueBrands);
+      });
   }, []);
 
   const cur = (name) => (current === name ? { 'aria-current': 'page' } : {});
@@ -91,25 +102,38 @@ export default function Header({ current }) {
           <button
             type="button"
             className="menu-btn"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((o) => !o)}
+            aria-expanded={brandsOpen}
+            onClick={() => setBrandsOpen((o) => !o)}
           >
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-            Nos univers
+            Marques
           </button>
 
-          {menuOpen && (
+          {brandsOpen && (
             <div className="univers-dropdown">
-              {categories.length === 0 && (
-                <span style={{ color: 'var(--steel)', fontSize: 13 }}>Aucun univers pour l&apos;instant.</span>
+              {brands.length === 0 && (
+                <span style={{ color: 'var(--steel)', fontSize: 13, padding: '4px 12px' }}>
+                  Aucune marque renseignée pour l&apos;instant.
+                </span>
               )}
-              {categories.map((c) => (
-                <Link key={c.slug} href={`/produits#${c.slug}`} onClick={() => setMenuOpen(false)}>
-                  {c.name}
+              {brands.map((b) => (
+                <Link key={b} href={`/produits?brand=${encodeURIComponent(b)}`} onClick={() => setBrandsOpen(false)}>
+                  {b}
                 </Link>
               ))}
             </div>
           )}
+
+          <ul className="subnav-links">
+            {categories.map((c) => (
+              <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
+            ))}
+            <li>
+              <Link href="/produits?promo=1" style={{ color: 'var(--orange)', fontWeight: 700 }}>
+                🔥 Bons plans
+              </Link>
+            </li>
+          </ul>
 
           <Link href="/panier" className="subnav-right" style={{ marginLeft: 'auto' }}>Voir mon panier →</Link>
         </div>
