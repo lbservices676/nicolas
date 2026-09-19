@@ -102,7 +102,7 @@ export default async function HomePage() {
       <Header current="accueil" />
 
       <section style={{ background: '#fff', padding: '36px 0 4px' }}>
-        <div className="wrap">
+        <div className="wrap" style={{ maxWidth: 1600 }}>
           <ProductCarousel slides={carouselSlides} />
         </div>
       </section>
