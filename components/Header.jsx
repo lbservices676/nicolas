@@ -57,8 +57,8 @@ export default function Header({ current }) {
       <div className="topbar">
         <div className="wrap">
           <Link href="/" className="logo">
-            <LogoMark />
-            <span className="word">LB SERVICE<small>FOURNITURES BTP &amp; TP</small></span>
+            <LogoMark size={60} />
+            <span className="word">LB SERVICES<small>FOURNITURES BTP &amp; TP</small></span>
           </Link>
 
           <form className="searchbar" role="search" onSubmit={onSearch}>
