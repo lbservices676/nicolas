@@ -113,9 +113,16 @@ export default async function HomePage() {
             <span className="eyebrow" style={{ marginTop: 24, display: 'inline-flex' }}>Grossiste fournitures BTP &amp; TP</span>
             <h1>L&apos;équipement qui<br /><span className="accent">tient le chantier.</span></h1>
             <p className="lead">Outillage, EPI, fixation, manutention, abrasifs, plomberie et fournitures de chantier : LB Services accompagne les professionnels du BTP et du TP avec des produits adaptés à leurs besoins, au bon prix et livrés directement sur chantier.</p>
-            <p style={{ color: 'var(--yellow)', fontWeight: 600, marginTop: '-16px', marginBottom: 28, fontSize: 15 }}>
-              Un seul interlocuteur pour vos besoins chantier.
-            </p>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 10,
+              background: 'rgba(255,255,255,.08)', border: '1px solid rgba(255,199,44,.4)',
+              borderRadius: 6, padding: '10px 16px', marginBottom: 28,
+            }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--yellow)', flex: 'none' }}></span>
+              <span style={{ color: 'var(--yellow)', fontWeight: 700, fontSize: 15 }}>
+                Un seul interlocuteur pour vos besoins chantier.
+              </span>
+            </div>
             <div className="cta-row">
               <Link href="/produits" className="btn btn--primary">Voir nos produits</Link>
               <Link href="/contact" className="btn btn--ghost">Demander un devis</Link>
