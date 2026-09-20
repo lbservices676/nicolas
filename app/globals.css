@@ -945,5 +945,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .carousel-side-btn--prev{ left:2px; }
   .carousel-side-btn--next{ right:2px; }
 }
+.site-header .wrap{ max-width:1600px; }
 
 
