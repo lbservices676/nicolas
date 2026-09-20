@@ -21,6 +21,7 @@ const CATEGORY_PHOTOS = [
   { keywords: ['outillage'], image: '/carousel/outillage.png' },
   { keywords: ['epi', 'sécurité', 'securite'], image: '/carousel/epi-securite.png' },
   { keywords: ['manutention'], image: '/carousel/manutention.png' },
+  { keywords: ['signalisation', 'balisage', 'environnement'], image: '/carousel/balisage-signalisation.png' },
   { keywords: ['consommable', 'matériaux', 'materiaux'], image: '/carousel/consommables.png' },
   { keywords: ['base vie', 'installation'], image: '/carousel/base-vie.png' },
 ];
@@ -73,9 +74,9 @@ export default async function HomePage() {
       href: findSlug(categories, ['epi', 'sécurité', 'securite']),
     },
     {
-      type: 'image', image: '/carousel/manutention.png',
-      title: 'Manutention', text: 'Gagnez en efficacité sur vos chantiers.',
-      href: findSlug(categories, ['manutention']),
+      type: 'image', image: '/carousel/balisage-signalisation.png',
+      title: 'Balisage & Signalisation', text: 'Sécurisez vos chantiers, guidez vos équipes.',
+      href: findSlug(categories, ['signalisation', 'balisage', 'environnement']),
     },
     {
       type: 'image', image: '/carousel/consommables.png',
