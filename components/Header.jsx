@@ -47,6 +47,7 @@ export default function Header({ current }) {
       <div className="info-bar">
         <div className="wrap">
           <span>Livraison chantier BTP &amp; TP sous 48h</span>
+          <span className="info-bar-since">Au service des Professionnels &amp; des Particuliers depuis 1998</span>
           <div className="info-links">
             <Link href="/apropos" {...cur('apropos')}>À propos</Link>
             <Link href="/contact" {...cur('contact')}>Contact</Link>
@@ -98,7 +99,7 @@ export default function Header({ current }) {
       </div>
 
       <nav className="subnav" aria-label="Navigation produits">
-        <div className="wrap" style={{ position: 'relative' }}>
+        <div className="wrap subnav-inner">
           <button
             type="button"
             className="menu-btn"
@@ -124,18 +125,18 @@ export default function Header({ current }) {
             </div>
           )}
 
-          <ul className="subnav-links">
-            {categories.map((c) => (
-              <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
-            ))}
-            <li>
-              <Link href="/produits?promo=1" style={{ color: 'var(--orange)', fontWeight: 700 }}>
-                🔥 Bons plans
-              </Link>
-            </li>
-          </ul>
+          <div className="subnav-scroll">
+            <ul className="subnav-links">
+              {categories.map((c) => (
+                <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
+              ))}
+            </ul>
+          </div>
 
-          <Link href="/panier" className="subnav-right" style={{ marginLeft: 'auto' }}>Voir mon panier →</Link>
+          <div className="subnav-right-group">
+            <Link href="/produits?promo=1" className="subnav-promo">🔥 Bons plans</Link>
+            <Link href="/panier" className="subnav-right">Voir mon panier →</Link>
+          </div>
         </div>
       </nav>
     </header>
