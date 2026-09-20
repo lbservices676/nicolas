@@ -841,4 +841,109 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .topbar .logo .mark{ width:60px; height:60px; }
 .topbar .logo .word{ font-size:25px; line-height:1.1; }
 .topbar .logo small{ font-size:10.5px; letter-spacing:.14em; font-weight:700; margin-top:2px; }
+/* ==========================================================================
+   Refonte du bandeau de navigation (subnav) + barre supérieure à 2 infos
+   ========================================================================== */
+
+/* ---------- barre supérieure : deux informations ---------- */
+.info-bar .wrap{
+  display:flex; align-items:center; justify-content:space-between;
+  height:34px; gap:20px;
+}
+.info-bar-since{
+  flex:1; text-align:center; opacity:.85;
+}
+@media (max-width: 900px){
+  .info-bar-since{ display:none; }
+}
+
+/* ---------- bandeau de navigation : une ligne compacte ---------- */
+.subnav{ background:#fff; border-bottom:2px solid var(--orange); }
+.subnav .subnav-inner{
+  display:flex; align-items:center; height:54px; gap:22px; position:relative;
+  flex-wrap:nowrap; min-height:0; padding-top:0; padding-bottom:0;
+}
+
+.menu-btn{
+  display:flex; align-items:center; gap:8px; height:100%;
+  background:none; border:none; color:var(--navy); flex:none;
+  font-family:var(--f-body); font-weight:700; font-size:13.5px;
+  text-transform:uppercase; letter-spacing:.02em; white-space:nowrap;
+  padding-right:18px; border-right:1px solid var(--line);
+}
+.menu-btn svg{ width:17px; height:17px; flex:none; }
+
+.subnav-scroll{
+  flex:1; min-width:0; overflow-x:auto; scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.subnav-scroll::-webkit-scrollbar{ display:none; }
+
+.subnav-links{
+  display:flex; align-items:center; gap:26px; height:54px; white-space:nowrap;
+}
+.subnav-links li{ display:flex; align-items:center; height:100%; flex:none; }
+.subnav-links a{
+  font-family:var(--f-body); font-size:13.5px; font-weight:600;
+  color:#0B2947; letter-spacing:.01em;
+  padding:6px 0; border-bottom:2px solid transparent;
+  transition:color .15s, border-color .15s;
+}
+.subnav-links a:hover, .subnav-links a[aria-current="page"]{
+  color:var(--orange); border-color:var(--orange);
+}
+
+.subnav-right-group{
+  display:flex; align-items:center; gap:20px; flex:none; padding-left:6px;
+}
+.subnav-promo{
+  font-family:var(--f-body); font-size:13.5px; font-weight:800;
+  color:var(--orange) !important; white-space:nowrap;
+}
+.subnav-right{
+  font-family:var(--f-body); font-size:13.5px; font-weight:700;
+  color:var(--navy) !important; white-space:nowrap;
+}
+
+/* Tablette : un peu plus compact */
+@media (max-width: 1024px){
+  .subnav-inner{ gap:16px; }
+  .subnav-links{ gap:18px; }
+  .menu-btn, .subnav-links a, .subnav-promo, .subnav-right{ font-size:12.5px; }
+}
+
+/* Mobile : le bandeau bascule dans le menu hamburger existant du topbar */
+@media (max-width: 720px){
+  .subnav{ display:none; }
+  .site-header.nav-open .subnav{ display:block; }
+  .subnav-inner{
+    height:auto; flex-direction:column; align-items:stretch; gap:14px; padding:14px 20px;
+  }
+  .menu-btn{ border-right:none; padding-right:0; height:auto; }
+  .subnav-scroll{ overflow-x:visible; }
+  .subnav-links{
+    flex-direction:column; align-items:flex-start; height:auto; gap:12px; white-space:normal;
+  }
+  .subnav-right-group{ padding-left:0; justify-content:space-between; }
+}
+
+/* ---------- flèches latérales du carrousel ---------- */
+.carousel-side-btn{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:5;
+  width:42px; height:42px; border-radius:50%; border:none; background:#fff;
+  color:var(--navy); box-shadow:0 6px 18px -6px rgba(11,37,64,.5);
+  display:flex; align-items:center; justify-content:center;
+  transition:background .15s, color .15s;
+}
+.carousel-side-btn:hover{ background:var(--navy); color:#fff; }
+.carousel-side-btn svg{ width:20px; height:20px; }
+.carousel-side-btn--prev{ left:-14px; }
+.carousel-side-btn--next{ right:-14px; }
+
+@media (max-width: 720px){
+  .carousel-side-btn{ width:36px; height:36px; }
+  .carousel-side-btn--prev{ left:2px; }
+  .carousel-side-btn--next{ right:2px; }
+}
+
 
