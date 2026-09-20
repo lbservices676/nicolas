@@ -946,5 +946,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .carousel-side-btn--next{ right:2px; }
 }
 .site-header .wrap{ max-width:1600px; }
+.subnav-scroll-btn{
+  flex:none; width:26px; height:26px; border-radius:50%; border:1px solid var(--line);
+  background:#fff; color:var(--navy); display:flex; align-items:center; justify-content:center;
+  transition:background .15s, color .15s;
+}
+.subnav-scroll-btn:hover{ background:var(--navy); color:#fff; }
+.subnav-scroll-btn svg{ width:14px; height:14px; }
 
+@media (max-width: 720px){
+  .subnav-scroll-btn{ display:none; }
+}
 
