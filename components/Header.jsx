@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import LogoMark from './LogoMark';
 import { useCart } from './CartProvider';
 import { createClient } from '@/lib/supabase/client';
@@ -15,6 +15,11 @@ export default function Header({ current }) {
   const [categories, setCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const router = useRouter();
+  const scrollRef = useRef(null);
+
+  const scrollNav = (dir) => {
+    scrollRef.current?.scrollBy({ left: dir * 220, behavior: 'smooth' });
+  };
 
   useEffect(() => {
     const supabase = createClient();
@@ -125,13 +130,21 @@ export default function Header({ current }) {
             </div>
           )}
 
-          <div className="subnav-scroll">
+          <button type="button" className="subnav-scroll-btn" aria-label="Univers précédents" onClick={() => scrollNav(-1)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+          </button>
+
+          <div className="subnav-scroll" ref={scrollRef}>
             <ul className="subnav-links">
               {categories.map((c) => (
                 <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
               ))}
             </ul>
           </div>
+
+          <button type="button" className="subnav-scroll-btn" aria-label="Univers suivants" onClick={() => scrollNav(1)}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 6l6 6-6 6" /></svg>
+          </button>
 
           <div className="subnav-right-group">
             <Link href="/produits?promo=1" className="subnav-promo">🔥 Bons plans</Link>
