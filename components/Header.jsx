@@ -137,7 +137,7 @@ export default function Header({ current }) {
           <div className="subnav-scroll" ref={scrollRef}>
             <ul className="subnav-links">
               {categories.map((c) => (
-                <li key={c.slug}><Link href={`/produits#${c.slug}`}>{c.name}</Link></li>
+                <li key={c.slug}><Link href={`/produits?category=${c.slug}`}>{c.name}</Link></li>
               ))}
             </ul>
           </div>
