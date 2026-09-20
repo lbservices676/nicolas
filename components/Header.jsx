@@ -135,7 +135,6 @@ export default function Header({ current }) {
 
           <div className="subnav-right-group">
             <Link href="/produits?promo=1" className="subnav-promo">🔥 Bons plans</Link>
-            <Link href="/panier" className="subnav-right">Voir mon panier →</Link>
           </div>
         </div>
       </nav>
