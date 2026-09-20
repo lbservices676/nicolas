@@ -63,30 +63,36 @@ export default function ProductCarousel({ slides }) {
       tabIndex={0}
       onKeyDown={onKeyDown}
     >
-      <div className="carousel-track" ref={trackRef} onScroll={onScroll}>
-        {slides.map((s, i) => (
-          <div className="carousel-slide" key={i}>
-            {s.type === 'cta' ? (
-              <Link href={s.href} className="carousel-cta-card">
-                <span className="eyebrow" style={{ color: 'var(--yellow)' }}>{s.eyebrow}</span>
-                <h3>{s.title}</h3>
-                <p>{s.text}</p>
-                <span className="carousel-cta-link">{s.cta} →</span>
-              </Link>
-            ) : (
-              <Link href={s.href} className="carousel-image-card">
-                <img src={s.image} alt={`${s.title} — ${s.text}`} loading="lazy" />
-                <span className="sr-only">{s.title} : {s.text}</span>
-              </Link>
-            )}
-          </div>
-        ))}
+      <div style={{ position: 'relative' }}>
+        <div className="carousel-track" ref={trackRef} onScroll={onScroll}>
+          {slides.map((s, i) => (
+            <div className="carousel-slide" key={i}>
+              {s.type === 'cta' ? (
+                <Link href={s.href} className="carousel-cta-card">
+                  <span className="eyebrow" style={{ color: 'var(--yellow)' }}>{s.eyebrow}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                  <span className="carousel-cta-link">{s.cta} →</span>
+                </Link>
+              ) : (
+                <Link href={s.href} className="carousel-image-card">
+                  <img src={s.image} alt={`${s.title} — ${s.text}`} loading="lazy" />
+                  <span className="sr-only">{s.title} : {s.text}</span>
+                </Link>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <button type="button" className="carousel-side-btn carousel-side-btn--prev" aria-label="Produit ou solution précédente" onClick={() => { stopAutoplay(); prev(); }}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
+        </button>
+        <button type="button" className="carousel-side-btn carousel-side-btn--next" aria-label="Produit ou solution suivante" onClick={() => { stopAutoplay(); next(); }}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 6l6 6-6 6" /></svg>
+        </button>
       </div>
 
       <div className="carousel-controls">
-        <button type="button" aria-label="Produit ou solution précédente" onClick={() => { stopAutoplay(); prev(); }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
-        </button>
         <div className="carousel-dots" role="tablist" aria-label="Aller à la carte">
           {slides.map((_, i) => (
             <button
@@ -99,11 +105,7 @@ export default function ProductCarousel({ slides }) {
             />
           ))}
         </div>
-        <button type="button" aria-label="Produit ou solution suivante" onClick={() => { stopAutoplay(); next(); }}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 6l6 6-6 6" /></svg>
-        </button>
       </div>
     </div>
   );
 }
-
