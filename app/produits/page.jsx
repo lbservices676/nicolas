@@ -39,7 +39,13 @@ export default async function ProduitsPage({ searchParams }) {
   const q = searchParams?.q?.trim() || '';
   const brand = searchParams?.brand?.trim() || '';
   const promo = searchParams?.promo === '1';
-  const { categories, products } = await getData(q, brand, promo);
+  const categorySlug = searchParams?.category?.trim() || '';
+  const { categories: allCategories, products } = await getData(q, brand, promo);
+
+  // Si un univers précis est demandé, on ne garde que celui-là
+  const selectedCategory = categorySlug ? allCategories.find((c) => c.slug === categorySlug) : null;
+  const categories = selectedCategory ? [selectedCategory] : allCategories;
+  const hasFilter = !!(q || brand || promo || categorySlug);
 
   return (
     <>
@@ -47,17 +53,29 @@ export default async function ProduitsPage({ searchParams }) {
 
       <section className="page-hero">
         <div className="wrap">
-          <span className="breadcrumb">Accueil / Produits</span>
-          <h1>{promo ? '🔥 Nos bons plans' : 'Le catalogue LB Service'}</h1>
+          <span className="breadcrumb">
+            <a href="/produits" style={{ color: 'inherit' }}>Accueil / Produits</a>
+            {selectedCategory ? ` / ${selectedCategory.name}` : ''}
+          </span>
+          <h1>
+            {promo ? '🔥 Nos bons plans' : selectedCategory ? selectedCategory.name : 'Le catalogue LB Service'}
+          </h1>
           <p>
             {promo
               ? 'Une sélection de produits en promotion ou en déstockage, pour un temps limité.'
+              : selectedCategory
+              ? (selectedCategory.description || `Tous les produits de l'univers ${selectedCategory.name}.`)
               : brand
               ? `Produits de la marque ${brand}`
               : q
               ? `Résultats pour « ${q} »`
               : 'Nos univers, mis à jour directement par notre équipe. Prix indicatifs HT — ajoutez au panier pour recevoir un devis chiffré.'}
           </p>
+          {selectedCategory && (
+            <a href="/produits" style={{ color: 'var(--yellow)', fontSize: 13.5, display: 'inline-block', marginTop: 10 }}>
+              ← Voir tout le catalogue
+            </a>
+          )}
         </div>
       </section>
       <div className="hazard hazard--thin"></div>
@@ -65,7 +83,13 @@ export default async function ProduitsPage({ searchParams }) {
       <section className="section">
         <div className="wrap">
 
-          {(q || brand || promo) && products.length === 0 && (
+          {categorySlug && !selectedCategory && (
+            <p style={{ marginBottom: 32, color: 'var(--steel)' }}>
+              Cet univers n&apos;existe plus. <a href="/produits" style={{ color: 'var(--orange)' }}>Voir tout le catalogue</a>.
+            </p>
+          )}
+
+          {hasFilter && !(categorySlug && !selectedCategory) && products.filter((p) => !selectedCategory || p.category_id === selectedCategory.id).length === 0 && (
             <p style={{ marginBottom: 32, color: 'var(--steel)' }}>
               Aucun produit ne correspond à votre recherche. <a href="/produits" style={{ color: 'var(--orange)' }}>Voir tout le catalogue</a>.
             </p>
@@ -73,13 +97,15 @@ export default async function ProduitsPage({ searchParams }) {
 
           {categories.map((cat) => {
             const catProducts = products.filter((p) => p.category_id === cat.id);
-            if ((q || brand || promo) && catProducts.length === 0) return null;
+            if (hasFilter && catProducts.length === 0 && !selectedCategory) return null;
             return (
               <div className="cat-block" id={cat.slug} key={cat.id}>
-                <div className="cat-block-head">
-                  <h2>{cat.name}</h2>
-                  <p>{cat.description}</p>
-                </div>
+                {!selectedCategory && (
+                  <div className="cat-block-head">
+                    <h2>{cat.name}</h2>
+                    <p>{cat.description}</p>
+                  </div>
+                )}
                 {catProducts.length > 0 ? (
                   <div className="prod-grid">
                     {catProducts.map((p) => <ProductCard product={p} key={p.id} />)}
@@ -91,7 +117,7 @@ export default async function ProduitsPage({ searchParams }) {
             );
           })}
 
-          {categories.length === 0 && (
+          {allCategories.length === 0 && (
             <p style={{ color: 'var(--steel)' }}>
               Aucune catégorie pour l&apos;instant — ajoutez-en depuis l&apos;espace admin.
             </p>
