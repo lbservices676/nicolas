@@ -14,7 +14,7 @@ function findSlug(categories, keywords) {
   const match = categories.find((c) =>
     keywords.some((k) => c.name.toLowerCase().includes(k))
   );
-  return match ? `/produits#${match.slug}` : '/produits';
+  return match ? `/produits?category=${match.slug}` : '/produits';
 }
 
 const CATEGORY_PHOTOS = [
@@ -248,7 +248,7 @@ export default async function HomePage() {
                   <div className="body">
                     <h3>{cat.name}</h3>
                     <p>{cat.description}</p>
-                    <Link href={`/produits#${cat.slug}`} className="more">Découvrir →</Link>
+                    <Link href={`/produits?category=${cat.slug}`} className="more">Découvrir →</Link>
                   </div>
                 </div>
               );
