@@ -9,6 +9,24 @@ const empty = {
   on_promo: false, old_price: '',
 };
 
+function sortHierarchy(categories) {
+  const byParent = {};
+  categories.forEach((c) => {
+    const key = c.parent_id || 'root';
+    if (!byParent[key]) byParent[key] = [];
+    byParent[key].push(c);
+  });
+  const result = [];
+  const walk = (parentKey, depth) => {
+    (byParent[parentKey] || []).forEach((c) => {
+      result.push({ ...c, depth });
+      walk(c.id, depth + 1);
+    });
+  };
+  walk('root', 0);
+  return result;
+}
+
 export default function ProductsManager({ initialProducts, categories }) {
   const [products, setProducts] = useState(initialProducts);
   const [form, setForm] = useState(empty);
@@ -152,7 +170,9 @@ export default function ProductsManager({ initialProducts, categories }) {
               <select name="category_id" value={form.category_id} onChange={onChange} required
                 style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 4, marginTop: 6 }}>
                 <option value="">— Choisir —</option>
-                {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                {sortHierarchy(categories).map((c) => (
+                  <option key={c.id} value={c.id}>{c.depth > 0 ? `— ${c.name}` : c.name}</option>
+                ))}
               </select>
             </div>
           </div>
