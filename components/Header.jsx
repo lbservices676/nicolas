@@ -26,6 +26,7 @@ export default function Header({ current }) {
     supabase
       .from('categories')
       .select('name, slug')
+      .is('parent_id', null)
       .order('sort_order', { ascending: true })
       .then(({ data }) => setCategories(data ?? []));
 
