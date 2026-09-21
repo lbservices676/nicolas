@@ -38,6 +38,7 @@ async function getHomeData() {
   const { data: categories } = await supabase
     .from('categories')
     .select('*')
+    .is('parent_id', null)
     .order('sort_order', { ascending: true });
 
   const { data: featured } = await supabase
