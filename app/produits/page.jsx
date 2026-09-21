@@ -42,10 +42,28 @@ export default async function ProduitsPage({ searchParams }) {
   const categorySlug = searchParams?.category?.trim() || '';
   const { categories: allCategories, products } = await getData(q, brand, promo);
 
-  // Si un univers précis est demandé, on ne garde que celui-là
+  const topLevel = allCategories.filter((c) => !c.parent_id);
+  const childrenOf = (id) => allCategories.filter((c) => c.parent_id === id);
   const selectedCategory = categorySlug ? allCategories.find((c) => c.slug === categorySlug) : null;
-  const categories = selectedCategory ? [selectedCategory] : allCategories;
+  const parentOfSelected = selectedCategory?.parent_id
+    ? allCategories.find((c) => c.id === selectedCategory.parent_id)
+    : null;
   const hasFilter = !!(q || brand || promo || categorySlug);
+
+  // Détermine quelles catégories "de premier niveau" afficher, et quels produits leur associer
+  let sections;
+  if (selectedCategory) {
+    const kids = childrenOf(selectedCategory.id);
+    const ids = [selectedCategory.id, ...kids.map((k) => k.id)];
+    sections = [{ category: selectedCategory, subcats: kids, productIds: ids }];
+  } else {
+    sections = topLevel.map((cat) => {
+      const kids = childrenOf(cat.id);
+      return { category: cat, subcats: kids, productIds: [cat.id, ...kids.map((k) => k.id)] };
+    });
+  }
+
+  const noResults = hasFilter && sections.every((s) => products.filter((p) => s.productIds.includes(p.category_id)).length === 0);
 
   return (
     <>
@@ -55,7 +73,7 @@ export default async function ProduitsPage({ searchParams }) {
         <div className="wrap">
           <span className="breadcrumb">
             <a href="/produits" style={{ color: 'inherit' }}>Accueil / Produits</a>
-            {selectedCategory ? ` / ${selectedCategory.name}` : ''}
+            {parentOfSelected ? ` / ${parentOfSelected.name} / ${selectedCategory.name}` : selectedCategory ? ` / ${selectedCategory.name}` : ''}
           </span>
           <h1>
             {promo ? '🔥 Nos bons plans' : selectedCategory ? selectedCategory.name : 'Le catalogue LB Service'}
@@ -89,29 +107,38 @@ export default async function ProduitsPage({ searchParams }) {
             </p>
           )}
 
-          {hasFilter && !(categorySlug && !selectedCategory) && products.filter((p) => !selectedCategory || p.category_id === selectedCategory.id).length === 0 && (
+          {noResults && (
             <p style={{ marginBottom: 32, color: 'var(--steel)' }}>
               Aucun produit ne correspond à votre recherche. <a href="/produits" style={{ color: 'var(--orange)' }}>Voir tout le catalogue</a>.
             </p>
           )}
 
-          {categories.map((cat) => {
-            const catProducts = products.filter((p) => p.category_id === cat.id);
-            if (hasFilter && catProducts.length === 0 && !selectedCategory) return null;
+          {sections.map(({ category, subcats, productIds }) => {
+            const sectionProducts = products.filter((p) => productIds.includes(p.category_id));
+            if (hasFilter && sectionProducts.length === 0) return null;
             return (
-              <div className="cat-block" id={cat.slug} key={cat.id}>
+              <div className="cat-block" id={category.slug} key={category.id}>
                 {!selectedCategory && (
                   <div className="cat-block-head">
-                    <h2>{cat.name}</h2>
-                    <p>{cat.description}</p>
+                    <h2>{category.name}</h2>
+                    <p>{category.description}</p>
                   </div>
                 )}
-                {catProducts.length > 0 ? (
+
+                {subcats.length > 0 && (
+                  <div className="filters" style={{ marginBottom: 24 }}>
+                    {subcats.map((sc) => (
+                      <a key={sc.id} href={`/produits?category=${sc.slug}`} className="chip">{sc.name}</a>
+                    ))}
+                  </div>
+                )}
+
+                {sectionProducts.length > 0 ? (
                   <div className="prod-grid">
-                    {catProducts.map((p) => <ProductCard product={p} key={p.id} />)}
+                    {sectionProducts.map((p) => <ProductCard product={p} key={p.id} />)}
                   </div>
                 ) : (
-                  !q && !brand && !promo && <p style={{ color: 'var(--steel)', fontSize: 14 }}>Aucun produit publié pour l&apos;instant dans cet univers.</p>
+                  !hasFilter && <p style={{ color: 'var(--steel)', fontSize: 14 }}>Aucun produit publié pour l&apos;instant dans cet univers.</p>
                 )}
               </div>
             );
