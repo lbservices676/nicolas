@@ -958,4 +958,5 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .subnav-scroll-btn{ display:none; }
 }
 .topbar-actions{ margin-left:auto; }
+.searchbar{ max-width:760px; }
 
