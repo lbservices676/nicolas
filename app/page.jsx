@@ -75,16 +75,6 @@ export default async function HomePage() {
       href: findSlug(categories, ['epi', 'sécurité', 'securite']),
     },
     {
-      type: 'image', image: '/carousel/balisage-signalisation.png',
-      title: 'Balisage & Signalisation', text: 'Sécurisez vos chantiers, guidez vos équipes.',
-      href: findSlug(categories, ['signalisation', 'balisage', 'environnement']),
-    },
-    {
-      type: 'image', image: '/carousel/consommables.png',
-      title: 'Matériaux & Consommables', text: "Tout ce qu'il vous faut pour avancer.",
-      href: findSlug(categories, ['consommable', 'matériaux', 'materiaux']),
-    },
-    {
       type: 'image', image: '/carousel/base-vie.png',
       title: 'Base Vie', text: 'Des solutions pour des chantiers bien organisés.',
       href: findSlug(categories, ['base vie', 'installation']),
