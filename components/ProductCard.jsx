@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useCart } from './CartProvider';
 import { DEFAULT_ICON } from '@/lib/categoryIcons';
 
@@ -16,7 +17,7 @@ export default function ProductCard({ product }) {
 
   return (
     <article className="prod-card">
-      <div className="shot" style={product.image_url ? { background: '#fff' } : undefined}>
+      <Link href={`/produits/${product.id}`} className="shot" style={product.image_url ? { background: '#fff' } : undefined}>
         {product.ref && <span className="ref">{product.ref}</span>}
         {product.on_promo && (
           <span style={{
@@ -30,14 +31,14 @@ export default function ProductCard({ product }) {
         {product.image_url
           ? <img src={product.image_url} alt={product.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
           : DEFAULT_ICON}
-      </div>
+      </Link>
       <div className="body">
         {product.brand && (
           <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '.04em', marginBottom: 4, display: 'block' }}>
             {product.brand}
           </span>
         )}
-        <h3>{product.name}</h3>
+        <h3><Link href={`/produits/${product.id}`} style={{ color: 'inherit' }}>{product.name}</Link></h3>
         {product.spec && <p className="spec">{product.spec}</p>}
         <div className="row">
           <span className="price">
