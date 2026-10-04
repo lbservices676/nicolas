@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import ProductDetailActions from '@/components/ProductDetailActions';
+import ProductGallery from '@/components/ProductGallery';
 import { createClient } from '@/lib/supabase/server';
 import { DEFAULT_ICON } from '@/lib/categoryIcons';
 
@@ -40,13 +41,8 @@ export default async function ProductDetailPage({ params }) {
       <section className="section">
         <div className="wrap" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
 
-          <div className="shot" style={{
-            position: 'relative', borderRadius: 8, overflow: 'hidden', aspectRatio: '1/1',
-            background: product.image_url ? '#fff' : 'var(--paper)',
-            backgroundImage: product.image_url ? 'none' : 'repeating-linear-gradient(-45deg, var(--line) 0 10px, transparent 10px 20px)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-          }}>
-            {product.ref && <span className="ref">{product.ref}</span>}
+           <div style={{ position: 'relative' }}>
+            {product.ref && <span className="ref" style={{ position: 'absolute', top: 10, left: 10, zIndex: 1 }}>{product.ref}</span>}
             {product.on_promo && (
               <span style={{
                 position: 'absolute', top: 12, right: 12, zIndex: 1,
@@ -56,9 +52,7 @@ export default async function ProductDetailPage({ params }) {
                 Promo
               </span>
             )}
-            {product.image_url
-              ? <img src={product.image_url} alt={product.name} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-              : <div style={{ width: 64, height: 64 }}>{DEFAULT_ICON}</div>}
+            <ProductGallery images={product.images} name={product.name} />
           </div>
 
           <div>
