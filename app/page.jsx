@@ -61,7 +61,7 @@ async function getHomeData() {
 }
 
 export default async function HomePage() {
-  const { categories, featured, promoProducts } = await getHomeData();
+    const { categories, promoProducts } = await getHomeData();
 
   const carouselSlides = [
     {
@@ -86,6 +86,23 @@ export default async function HomePage() {
       text: 'Envoyez-nous votre besoin, nous recherchons la solution adaptée auprès de nos fabricants et partenaires.',
       cta: 'Demander un devis',
       href: '/contact',
+    },
+  ];
+    const brandSlides = [
+    {
+      type: 'image', image: '/carousel/brands/golz.png',
+      title: 'Gölz', text: 'Une gamme complète de disques diamant pour cibler chaque matériau.',
+      href: '/produits?brand=Golz',
+    },
+    {
+      type: 'image', image: '/carousel/brands/makita.png',
+      title: 'Makita', text: 'Outillage électroportatif professionnel pour le chantier.',
+      href: '/produits?brand=Makita',
+    },
+    {
+      type: 'image', image: '/carousel/brands/talia.png',
+      title: 'Talia', text: 'Des solutions fiables pour vos équipes sur le terrain.',
+      href: '/produits?brand=Talia',
     },
   ];
 
@@ -137,63 +154,21 @@ export default async function HomePage() {
         </div>
       </section>
       <div className="hazard"></div>
-
-      {promoProducts.length > 0 && (
-        <section className="section" style={{ paddingBottom: 0 }}>
-          <div className="wrap">
-            <div className="section-head">
-              <div>
-                <span className="eyebrow" style={{ color: 'var(--orange)' }}>🔥 En ce moment</span>
-                <h2>Bons plans</h2>
-              </div>
-              <Link href="/produits?promo=1" className="more" style={{ fontSize: 14 }}>Voir tous les bons plans →</Link>
-            </div>
-            <div className="prod-grid">
-              {promoProducts.map((p) => <ProductCard product={p} key={p.id} />)}
-            </div>
-          </div>
-        </section>
-      )}
-
-      <section className="section" style={{ paddingTop: 0 }}>
+            <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="section-head">
             <div>
               <span className="eyebrow">Nos marques</span>
-              <h2>{featured.length > 0 ? 'Produits phares' : 'Des marques que vous connaissez'}</h2>
+              <h2>Nos marques partenaires</h2>
             </div>
-            <p>
-              {featured.length > 0
-                ? 'Une sélection de références disponibles chez les plus grandes marques du secteur.'
-                : 'Nous distribuons des références des plus grandes marques du secteur BTP & TP.'}
-            </p>
+            <Link href="/produits" className="more" style={{ fontSize: 14 }}>Voir toutes nos marques →</Link>
           </div>
 
-          {featured.length > 0 ? (
-            <div className="cat-grid">
-              {featured.map((p) => (
-                <div className="cat-card" key={p.id}>
-                  <div className="thumb" style={{ background: '#fff' }}>
-                    <img src={p.image_url} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} />
-                  </div>
-                  <div className="body">
-                    {p.brand && (
-                      <span style={{ fontFamily: 'var(--f-mono)', fontSize: 11, color: 'var(--orange)', textTransform: 'uppercase', letterSpacing: '.04em', marginBottom: 4, display: 'block' }}>
-                        {p.brand}
-                      </span>
-                    )}
-                    <h3>{p.name}</h3>
-                    <p>{p.spec || p.description}</p>
-                    <Link href="/produits" className="more">Voir sur le catalogue →</Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div style={{
-              display: 'flex', flexWrap: 'wrap', gap: 16, background: 'var(--paper-2)',
-              border: '1px solid var(--line)', borderRadius: 8, padding: '32px 28px',
-            }}>
+          <ProductCarousel slides={brandSlides} />
+        </div>
+      </section>
+      {promoProducts.length > 0 && (
+      
               {CURATED_BRANDS.map((brand) => (
                 <div key={brand} style={{
                   flex: '1 1 180px', textAlign: 'center', padding: '22px 16px',
