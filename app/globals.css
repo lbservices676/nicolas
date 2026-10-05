@@ -785,9 +785,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .brand-carousel .carousel-slide{
   flex-basis: 88%;
 }
+.brand-carousel .carousel-image-card{
+  height: 220px;
+}
 .brand-carousel .carousel-image-card img{
-  aspect-ratio: 5 / 1;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
   object-fit: cover;
   background: #fff;
 }
