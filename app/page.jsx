@@ -182,8 +182,9 @@ export default async function HomePage() {
             <Link href="/produits" className="more" style={{ fontSize: 14 }}>Voir toutes nos marques →</Link>
           </div>
 
-          <ProductCarousel slides={brandSlides} />
-        </div>
+            <div className="brand-carousel">
+            <ProductCarousel slides={brandSlides} />
+          </div>
       </section>
         <section className="section" style={{ background: 'var(--paper-2)' }}>
         <div className="wrap">
