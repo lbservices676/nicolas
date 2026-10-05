@@ -781,6 +781,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (max-width: 640px){
   .carousel-slide{ flex-basis:82%; }
 }
+/* ---------- carrousel marques (bannières publicitaires) ---------- */
+.brand-carousel .carousel-slide{
+  flex-basis: 88%;
+}
+.brand-carousel .carousel-image-card img{
+  aspect-ratio: auto;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+}
+@media (max-width: 900px){
+  .brand-carousel .carousel-slide{ flex-basis: 94%; }
+}
+@media (max-width: 640px){
+  .brand-carousel .carousel-slide{ flex-basis: 100%; }
+}
 /* ---------- section 8 : différenciateur "pas juste un catalogue" ---------- */
 .diff-band{ background:var(--navy); color:#fff; padding:72px 0; }
 .diff-band-inner{ display:grid; grid-template-columns:1.4fr .8fr; gap:56px; align-items:center; }
