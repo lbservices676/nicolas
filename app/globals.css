@@ -786,9 +786,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   flex-basis: 88%;
 }
 .brand-carousel .carousel-image-card img{
-  aspect-ratio: auto;
+  aspect-ratio: 5 / 1;
   height: auto;
-  object-fit: contain;
+  object-fit: cover;
   background: #fff;
 }
 @media (max-width: 900px){
