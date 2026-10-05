@@ -185,7 +185,7 @@ export default async function HomePage() {
           <ProductCarousel slides={brandSlides} />
         </div>
       </section>
-  
+        <section className="section" style={{ background: 'var(--paper-2)' }}>
         <div className="wrap">
           <div className="section-head">
             <div>
