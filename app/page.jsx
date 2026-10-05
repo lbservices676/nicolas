@@ -153,8 +153,26 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      <div className="hazard"></div>
-            <section className="section" style={{ paddingTop: 0 }}>
+            <div className="hazard"></div>
+
+      {promoProducts.length > 0 && (
+        <section className="section" style={{ paddingBottom: 0 }}>
+          <div className="wrap">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow" style={{ color: 'var(--orange)' }}>🔥 En ce moment</span>
+                <h2>Bons plans</h2>
+              </div>
+              <Link href="/produits?promo=1" className="more" style={{ fontSize: 14 }}>Voir tous les bons plans →</Link>
+            </div>
+            <div className="prod-grid">
+              {promoProducts.map((p) => <ProductCard product={p} key={p.id} />)}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section className="section" style={{ paddingTop: 0 }}>
         <div className="wrap">
           <div className="section-head">
             <div>
@@ -167,27 +185,7 @@ export default async function HomePage() {
           <ProductCarousel slides={brandSlides} />
         </div>
       </section>
-      {promoProducts.length > 0 && (
-      
-              {CURATED_BRANDS.map((brand) => (
-                <div key={brand} style={{
-                  flex: '1 1 180px', textAlign: 'center', padding: '22px 16px',
-                  border: '1px solid var(--line)', borderRadius: 6, background: '#fff',
-                }}>
-                  <span style={{ fontFamily: 'var(--f-display)', fontWeight: 700, fontSize: 22, color: 'var(--navy)', textTransform: 'uppercase' }}>
-                    {brand}
-                  </span>
-                </div>
-              ))}
-              <p style={{ flexBasis: '100%', color: 'var(--steel)', fontSize: 13, marginTop: 8 }}>
-                Ajoutez des photos à vos produits phares depuis l&apos;espace admin pour les voir apparaître ici automatiquement.
-              </p>
-            </div>
-          )}
-        </div>
-      </section>
-
-      <section className="section" style={{ background: 'var(--paper-2)' }}>
+  
         <div className="wrap">
           <div className="section-head">
             <div>
