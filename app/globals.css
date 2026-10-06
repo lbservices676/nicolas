@@ -787,7 +787,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .brand-carousel .carousel-image-card{
   aspect-ratio: auto !important;
-  height: 200px !important;
+  height: 350px !important;
   background: #fff;
 }
 .brand-carousel .carousel-image-card img{
